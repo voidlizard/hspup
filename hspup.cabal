@@ -13,26 +13,65 @@ build-type:         Simple
 extra-doc-files:    CHANGELOG.md
 -- extra-source-files:
 
-common warnings
+common shared-properties
     ghc-options: -Wall
 
-library
-    import:           warnings
-    exposed-modules:  MyLib
-    -- other-modules:
-    -- other-extensions:
-    build-depends:    base ^>=4.15.1.0
-    hs-source-dirs:   src
-    default-language: Haskell2010
+    default-extensions:
+                       ApplicativeDo
+                     , BangPatterns
+                     , BlockArguments
+                     , ConstraintKinds
+                     , DataKinds
+                     , DeriveDataTypeable
+                     , DeriveGeneric
+                     , DerivingStrategies
+                     , DerivingVia
+                     , ExtendedDefaultRules
+                     , FlexibleContexts
+                     , FlexibleInstances
+                     , GeneralizedNewtypeDeriving
+                     , ImportQualifiedPost
+                     , ImportQualifiedPost
+                     , LambdaCase
+                     , MultiParamTypeClasses
+                     , OverloadedStrings
+                     , QuasiQuotes
+                     , ScopedTypeVariables
+                     , StandaloneDeriving
+                     , TupleSections
+                     , TypeApplications
+                     , TypeFamilies
+
+-- library
+--     import:           shared-properties
+--     exposed-modules:
+--     -- other-modules:
+--     -- other-extensions:
+--     build-depends:    base ^>=4.15.1.0
+--     hs-source-dirs:   src
+--     default-language: Haskell2010
 
 executable hspup
-    import:           warnings
+    import:           shared-properties
     main-is:          Main.hs
     -- other-modules:
     -- other-extensions:
     build-depends:
-        base ^>=4.15.1.0,
-        hspup
+          base
+        , aeson
+        , attoparsec
+        , containers
+        , directory
+        , filepath
+        , filepattern
+        , io-streams
+        , microstache
+        , optparse-applicative
+        , regex-tdfa
+        , safe
+        , text
+        , uniplate
+        , prettyprinter
 
     hs-source-dirs:   app
     default-language: Haskell2010

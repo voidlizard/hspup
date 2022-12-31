@@ -1,51 +1,49 @@
 {
-description = "hspup";
+description = "hbsync-fetch";
 
 inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
-    haskell-flake-utils.url = "github:ivanovs-4/haskell-flake-utils";
+
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
+    # haskell-flake-utils.url = "github:ivanovs-4/haskell-flake-utils";
+    haskell-flake-utils.url = "github:ivanovs-4/haskell-flake-utils/896219e5bde6efac72198550454e9dd9b5ed9ac9";
 };
 
 outputs = { self, nixpkgs, haskell-flake-utils, ... }@inputs:
-  haskell-flake-utils.lib.simpleCabal2flake {
-      inherit self nixpkgs;
-      systems = [ "x86_64-linux" ];
 
-      name = "hspup";
+ haskell-flake-utils.lib.simpleCabalProject2flake {
+   inherit self nixpkgs;
+   systems = [ "x86_64-linux" ];
+   name = "hspup";
 
-      shellWithHoogle = true;
+   packageNames = [
+     "hspup"
+   ];
 
-      haskellFlakes = with inputs; [
-      ];
+   packageDirs = {
+     "hspup" = ".";
+   };
 
-      hpPreOverrides = { pkgs }: new: old:
-        with pkgs.haskell.lib;
-        with haskell-flake-utils.lib;
-        tunePackages pkgs old {
-          mr-env            = [ (jailbreakUnbreak pkgs) dontCheck ];
-          thread-supervisor = [ (jailbreakUnbreak pkgs) dontCheck ];
-          higgledy          = [ (jailbreakUnbreak pkgs) dontCheck ];
-        };
 
-      packagePostOverrides = { pkgs }: with pkgs; with haskell.lib; [
-        disableExecutableProfiling
-        disableLibraryProfiling
-        dontBenchmark
-        dontCoverage
-        dontDistribute
-        dontHaddock
-        dontHyperlinkSource
-        doStrip
-        enableDeadCodeElimination
-        justStaticExecutables
+   packagePostOverrides = { pkgs }: with pkgs; with haskell.lib; [
+    disableExecutableProfiling
+    disableLibraryProfiling
+    dontBenchmark
+    dontCoverage
+    dontDistribute
+    dontHaddock
+    dontHyperlinkSource
+    doStrip
+    enableDeadCodeElimination
+    justStaticExecutables
 
-        dontCheck
-      ];
+    dontCheck
+   ];
 
-      shellExtBuildInputs = {pkgs}: with pkgs; [
-        haskellPackages.haskell-language-server
-      ];
+   shellExtBuildInputs = {pkgs}: with pkgs;  [
+     haskellPackages.haskell-language-server
+   ];
 
-  };
+ };
+
+
 }
-
