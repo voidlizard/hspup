@@ -1,5 +1,5 @@
 {
-description = "hbsync-fetch";
+description = "hspup";
 
 inputs = {
 
