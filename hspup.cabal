@@ -67,11 +67,12 @@ executable hspup
         , io-streams
         , microstache
         , optparse-applicative
+        , prettyprinter
         , regex-tdfa
         , safe
         , text
+        , transformers
         , uniplate
-        , prettyprinter
 
     hs-source-dirs:   app
     default-language: Haskell2010
