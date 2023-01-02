@@ -95,7 +95,7 @@ runPath fp = maybe fromStdin pure fp >>= makeGuess
       variants <- MaybeT $ liftIO
                          $ getDirectoryFilesIgnore "." [path] [".*/**", "dist-newstyle/**"] <&> listToMaybe
 
-      liftIO $ putStrLn variants
+      liftIO $ putStr variants
 
 
 runTouch :: Bool -> Bool -> FilePath -> IO ()
