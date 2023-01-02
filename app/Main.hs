@@ -29,7 +29,8 @@ main = join . customExecParser (prefs showHelpOnError) $
   )
   where
     parser ::  O.Parser (IO ())
-    parser = hsubparser ( command "touch" (info pTouch (progDesc "touch dir/file recursively"))
+    parser = hsubparser (  command "touch"  (info pTouch  (progDesc "touch dir/file recursively"))
+                        <> command "module" (info pModule (progDesc "get module name from path or file"))
                         )
 
     pTouch = do
@@ -37,6 +38,10 @@ main = join . customExecParser (prefs showHelpOnError) $
       hs <-  flag False True ( short 'H' <> long "hs" )
       n <- strArgument ( metavar "NAME" )
       pure $ runTouch dir hs n
+
+    pModule = do
+      n <- optional $ strArgument ( metavar "PATH" )
+      pure $ runModule n
 
 
 itsModule :: Text -> Bool
@@ -51,6 +56,12 @@ validModule s = either (const False) (const True) (parseOnly p s)
   where
     p = satisfy Char.isUpper *> many (letter <|> digit <|> char '.') >> endOfInput
 
+
+runModule :: Maybe FilePath -> IO ()
+
+runModule (Just fp) = putStrLn (makeHaskellModule fp)
+
+runModule Nothing = getContents >>= putStrLn . makeHaskellModule
 
 runTouch :: Bool -> Bool -> FilePath -> IO ()
 
