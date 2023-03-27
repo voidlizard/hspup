@@ -12,7 +12,7 @@ outputs = { self, nixpkgs, haskell-flake-utils, ... }@inputs:
 
  haskell-flake-utils.lib.simpleCabalProject2flake {
    inherit self nixpkgs;
-   systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" ];
+   systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
    name = "hspup";
 
    packageNames = [
